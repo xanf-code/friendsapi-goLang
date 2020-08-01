@@ -39,7 +39,11 @@ func getFriend(w http.ResponseWriter, r *http.Request) {
 }
 
 func addFriend(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	var friend Friend
+	_ = json.NewDecoder(r.Body).Decode(&friend)
+	friends = append(friends, friend)
+	json.NewEncoder(w).Encode(friend)
 }
 
 func updateFriend(w http.ResponseWriter, r *http.Request) {
