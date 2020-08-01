@@ -51,7 +51,15 @@ func updateFriend(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteFriend(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for index, item := range friends {
+		if item.ID == params["id"] {
+			friends = append(friends[:index], friends[index+1:]...)
+			break
+		}
+	}
+	json.NewEncoder(w).Encode(friends)
 }
 
 func main() {
