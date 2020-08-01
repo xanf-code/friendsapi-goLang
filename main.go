@@ -55,7 +55,19 @@ func addFriend(w http.ResponseWriter, r *http.Request) {
 // PUT localhost:8000/api/friend/:id
 
 func updateFriend(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for index, item := range friends {
+		if item.ID == params["id"] {
+			friends = append(friends[:index], friends[index+1:]...) //DELETE FUNCTION
+			var friend Friend
+			_ = json.NewDecoder(r.Body).Decode(&friend)
+			friends = append(friends, friend)
+			json.NewEncoder(w).Encode(friend)
+			return
+		}
+	}
+	json.NewEncoder(w).Encode(friends)
 }
 
 // DELETE localhost:8000/api/friend/:id
