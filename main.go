@@ -21,10 +21,14 @@ type Rating struct {
 
 var friends []Friend
 
+// GET localhost:8000/api/friends
+
 func getFriends(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(friends)
 }
+
+// GET localhost:8000/api/friend/:id
 
 func getFriend(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -38,6 +42,8 @@ func getFriend(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(friends)
 }
 
+// POST localhost:8000/api/friends
+
 func addFriend(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var friend Friend
@@ -46,16 +52,20 @@ func addFriend(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(friend)
 }
 
+// PUT localhost:8000/api/friend/:id
+
 func updateFriend(w http.ResponseWriter, r *http.Request) {
 
 }
+
+// DELETE localhost:8000/api/friend/:id
 
 func deleteFriend(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 	for index, item := range friends {
 		if item.ID == params["id"] {
-			friends = append(friends[:index], friends[index+1:]...)
+			friends = append(friends[:index], friends[index+1:]...) //DELETE FUNCTION
 			break
 		}
 	}
